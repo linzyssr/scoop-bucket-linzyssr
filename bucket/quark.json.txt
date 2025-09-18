@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "description": "Quark Browser",
+  "homepage": "https://www.quarkbrowser.com",
+  "license": "MIT",
+  "url": "https://github.com/QuarkBrowser/Quark/releases/download/v1.0.0/Quark-Setup.exe",
+  "hash": "SHA256_HASH_OF_THE_INSTALLER",  // 使用实际的安装包 hash
+  "installer": {
+    "script": [
+      "Install-ChocolateyPackage",
+      "quark",
+      "$url",
+      "$package[\"installer\"]"
+    ]
+  },
+  "checkver": {
+    "url": "https://github.com/QuarkBrowser/Quark/releases",
+    "regex": "v([\\d.]+)"
+  },
+  "autoupdate": {
+    "url": "https://github.com/QuarkBrowser/Quark/releases/download/v$version/Quark-Setup.exe"
+  }
+}
