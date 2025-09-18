@@ -1,23 +1,28 @@
 {
-  "version": "1.0.0",
-  "description": "Quark Browser",
-  "homepage": "https://www.quarkbrowser.com",
-  "license": "MIT",
-  "url": "https://github.com/QuarkBrowser/Quark/releases/download/v1.0.0/Quark-Setup.exe",
-  "hash": "SHA256_HASH_OF_THE_INSTALLER",  // 使用实际的安装包 hash
-  "installer": {
-    "script": [
-      "Install-ChocolateyPackage",
-      "quark",
-      "$url",
-      "$package[\"installer\"]"
-    ]
-  },
-  "checkver": {
-    "url": "https://github.com/QuarkBrowser/Quark/releases",
-    "regex": "v([\\d.]+)"
-  },
-  "autoupdate": {
-    "url": "https://github.com/QuarkBrowser/Quark/releases/download/v$version/Quark-Setup.exe"
-  }
+  "version": "1.9.2",
+  "description": "A modern Markdown-based typesetting system",
+  "homepage": "https://github.com/iamgio/quarkdown",
+  "license": "GPL-3.0",
+  "depends": [
+    "java/openjdk17",
+    "nodejs-lts"
+  ],
+  "url": "https://github.com/iamgio/quarkdown/releases/download/v1.9.2/quarkdown.zip",
+  "hash": "af68d09bc6ea8e9e0dc7317fe45c5b7c7a2a503e74b72c2f240a2c4d83a950ef",
+  "extract_dir": "quarkdown",
+  "bin": "bin\\quarkdown.bat",
+  "post_install": [
+    "npm install puppeteer --prefix \"$dir\\lib\"",
+    "Get-ChildItem -Path \"$dir\\lib\"",
+    "Remove-Item -Path \"$dir\\bin\\quarkdown\" -Force -ErrorAction SilentlyContinue",
+    "Move-Item -Path \"$dir\\bin\\quarkdown.bat\" -Destination \"$dir\\bin\\_quarkdown.bat\"",
+    "Set-Content -Path \"$dir\\bin\\quarkdown.bat\" -Value @(",
+    "  '@echo off',",
+    "  'set APPS_DIR=%~dp0..\\..\\..',",
+    "  'set JAVA_HOME=%APPS_DIR%\\openjdk17\\current',",
+    "  'set PATH=%APPS_DIR%\\nodejs-lts\\current;%PATH%',",
+    "  'set QD_NPM_PREFIX=%~dp0..\\lib',",
+    "  '\"%~dp0_quarkdown\" %*'",
+    ")"
+  ]
 }
